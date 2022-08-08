@@ -1,0 +1,77 @@
+---
+- name: Update subscription manager
+  command: subscription-manager refresh
+
+- name: clean
+  command: yum clean all
+
+- name: Curl URL
+  shell: curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash - 
+
+- name: Install nodejs
+  become_user: root
+  yum:
+    name: 
+      - nodejs
+
+- name: Get app build
+  get_url: 
+    url: "{{ app_url }}"
+    dest: "{{ app_location_tar }}"
+
+- name: Unarchive app
+  ansible.builtin.unarchive:
+    src: "{{ app_location_tar }}" 
+    dest: /tmp/
+    remote_src: yes
+
+- name: Go to the app folder and run npm i
+  command: npm i {{ app_location }}
+
+
+- name: make myapp.service
+  blockinfile:
+    dest: /lib/systemd/system/myapp.service
+    block: |
+      [Unit]
+      Description=My app
+
+      [Service]
+      Type=simple
+      Restart=always
+      RestartSec=5
+      ExecStart=/usr/bin/node {{ app_location }}/index.js
+      User=root
+      Environment="TARGET_URL=http://gateway.{{ domain_name }}"
+      Environment=PORT={{ port }}
+      WorkingDirectory={{ app_location }}
+
+      [Install]
+      WantedBy=multi-user.target
+    insertafter: EOF
+    create: yes
+
+- name: Allow traffic
+  ansible.posix.firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+
+- name: Restart firewall
+  service:
+    name: firewalld
+    enabled: true
+    state: restarted
+
+- name: daemon-reload 
+  command: systemctl daemon-reload
+
+- name: enable myapp on start up
+  service:
+    name: myapp
+    enabled: true
+    state: started
+
+
+
+

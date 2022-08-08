@@ -1,0 +1,31 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vmware
+  vcenter_hostname: ${VCENTER_HOSTNAME}
+  vcenter_username: ${VCENTER_USERNAME}
+  vcenter_password: ${VCENTER_PASSWORD}
+  validate_certs: false
+  datacenter: Cardiff
+  esxi_hostname: 192.168.1.102
+  folder: /Ansible/molecule
+  vm_username: root
+  vm_password: Renegade187!
+  instance_os_type: linux # is possible only specify [linux or windows]
+platforms:
+  - name: h-app-instance
+    template: RHEL79-Thin
+    hardware:
+      num_cpus: 2 
+      memory_mb: 2048
+    networks:
+      - name: VM Network # is a port group to be assigned to an instance
+        type: dhcp
+      - name: harrison
+        type: dhcp
+    group: node
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

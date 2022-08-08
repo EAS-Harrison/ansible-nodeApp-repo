@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include network.node_app"
+      include_role:
+        name: "network.node_app"
