@@ -6,4 +6,4 @@ port: 80
 app_url: 192.168.4.47:80/trainee-challenge-node-app-main.tar.gz
 app_location_tar: /tmp/trainee-challenge-node-app-main.tar.gz
 app_location: /tmp/trainee-challenge-node-app-main
-hostname_loop: "{{ [ gateway , dhcp , dns ] }}"
+hostnames : loop: gateway , dhcp , dns
