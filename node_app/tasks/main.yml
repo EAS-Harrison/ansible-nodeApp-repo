@@ -42,7 +42,7 @@
       RestartSec=5
       ExecStart=/usr/bin/node {{ app_location }}
       User=root
-      Environment=TARGET_URL=http://{{ target_url }}.{{ domain_name }}
+      Environment=TARGET_URL=http://{{ target_url | split('-') | last }}.{{ domain_name }}
       Environment=PORT={{ port }}
       WorkingDirectory={{ app_location }}
 
