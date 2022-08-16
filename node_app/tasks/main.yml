@@ -40,7 +40,7 @@
       Type=simple
       Restart=always
       RestartSec=5
-      ExecStart=/usr/bin/node {{ app_location }}/index.js
+      ExecStart=/usr/bin/node {{ app_location }}
       User=root
       Environment=TARGET_URL=http://{{ ansible_facts.hostname | split('-') | last }}.{{ domain_name }}
       Environment=PORT={{ port }}
