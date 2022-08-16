@@ -60,8 +60,7 @@
 - name: Restart firewall
   service:
     name: firewalld
-    enabled: true
-    state: restarted
+    state: reloaded
 
 - name: daemon-reload 
   command: systemctl daemon-reload
@@ -71,6 +70,11 @@
     name: myapp
     enabled: true
     state: started
+
+- name: enable myapp on start up
+  service:
+    name: myapp
+    state: restarted
 
 
 
