@@ -1,7 +1,7 @@
 ---
 domain_name: harrison.local
-dns: "{{hostvars['h-dns-instance'].ansible_ens224.ipv4.address}}"
-gateway: "{{hostvars['h-gateway-instance'].ansible_ens224.ipv4.address}}"
+dns: "{{hostvars['h-dns'].ansible_ens224.ipv4.address}}"
+gateway: "{{hostvars['h-gateway'].ansible_ens224.ipv4.address}}"
 # app_url: https://nexusrm.easlab.co.uk/repository/eas-hosted-bin/trainee-challenge-node-app-main.tar.gz
 port: 80
 app_url: http://192.168.4.47:80/trainee-challenge-node-app-main.tar.gz
